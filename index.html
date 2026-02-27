@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Text Summarizer</title>
+</head>
+<body>
+
+<h2>Text Summarizer (Beginner Version)</h2>
+
+<textarea id="inputText" rows="10" cols="60"
+placeholder="Paste your long paragraph here..."></textarea>
+
+<br><br>
+
+<button onclick="summarize()">Summarize</button>
+
+<h3>Summary:</h3>
+<p id="result"></p>
+
+<script>
+async function summarize() {
+
+    let text = document.getElementById("inputText").value;
+
+    if (text === "") {
+        alert("Please enter some text!");
+        return;
+    }
+
+    const response = await fetch("http://localhost:3000/summarize", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ text: text })
+    });
+
+    const data = await response.json();
+    document.getElementById("result").innerText = data.summary;
+}
+</script>
+
+</body>
+</html>
